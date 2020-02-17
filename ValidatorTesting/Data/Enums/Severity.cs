@@ -1,28 +1,18 @@
 ﻿namespace ValidatorTesting.Data.Enums
 {
     /// <summary>
-    /// Важность
+    /// Задает константы, определяющие уровень ошибки/уведомления
     /// </summary>
     public enum Severity
     {
         /// <summary>
-        /// Фатальная ошибка после которой дальнейшое выполенине не возможно
+        /// Ошибка
         /// </summary>
-        Fatal,
-        
-        /// <summary>
-        /// Ошибка, но выполенине может быть продолжено
-        /// </summary>
-        Error,
+        Error = 0,
         
         /// <summary>
         /// Проблемное место которое может негативно сказаться на результате работы 
         /// </summary>
-        Warning,
-        
-        /// <summary>
-        /// Рекомендация
-        /// </summary>
-        Hint
+        Warning = 1
     }
 }

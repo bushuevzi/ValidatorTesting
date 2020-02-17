@@ -18,16 +18,15 @@ namespace ValidatorTesting.Infrastructure.Services.ValidatorService.Validators
         
         public int ValidatorId { get; set; }
         public Func<bool> CanExecute { get; set; } = () => true;
-        public IEnumerable<Notification> Validate()
+        public IEnumerable<ValidationNotification> Validate()
         {
-            if (!CanExecute()) yield break;
             if (!Regex.IsMatch(_target.Name ?? "", @"^[A-Za-z]{2,30}"))
             {
-                yield return new Notification
+                yield return new ValidationNotification
                 {
                     ValidatedTarget =_target.GetType().Name,
-                    Message = "Имя должно содержать буквенные литералы и быть больше 2 символов",
-                    Severity = Severity.Fatal
+                    Message = "Имя должно содержать буквенные литералы и быть больше 2 символов.",
+                    Severity = Severity.Error
                 };
             }
         }

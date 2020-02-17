@@ -4,24 +4,24 @@ using System.Collections.Generic;
 namespace ValidatorTesting.Infrastructure.Services.ValidatorService
 {
     /// <summary>
-    /// Валидатор данных
+    /// Интерфейс типа, который обеспечивает проверку/валидацию определненных данных.
     /// </summary>
     public interface IValidator
     {
         /// <summary>
-        /// Идентификатор валидатора
+        /// Возвращение и задание идентификатор валидатора. Используется для работы с сервисом валидации (дублирование валидаторов в сервисе не допускается)
         /// </summary>
         int ValidatorId { get; set; }
         
         /// <summary>
-        /// Разрешение за запуск валидатора
+        /// Установка разрешения за запуск валидатора.
         /// </summary>
         Func<bool> CanExecute { get; set; }
         
         /// <summary>
-        /// Валидация данных
+        /// Выполнение валидации данных.
         /// </summary>
         /// <returns>Коллекция уведомлений</returns>
-        IEnumerable<Notification> Validate();
+        IEnumerable<ValidationNotification> Validate();
     }
 }

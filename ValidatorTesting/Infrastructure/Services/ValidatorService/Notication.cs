@@ -3,22 +3,22 @@
 namespace ValidatorTesting.Infrastructure.Services.ValidatorService
 {
     /// <summary>
-    /// Уведомления
+    /// Объект содержащий сведения и описание найденной проблемы/ошибоки.
     /// </summary>
-    public class Notification
+    public class ValidationNotification
     {
         /// <summary>
-        /// Важность
+        /// Возвращает и задает уроверь серьезности проблемы/ошибки.
         /// </summary>
         public Severity Severity { get; set; }
         
         /// <summary>
-        /// Сообщение
+        /// Возвращает и задает текст сообщения о наличии проблем/ошибок.
         /// </summary>
         public string Message { get; set; }
         
         /// <summary>
-        /// Проверяемый объект
+        /// Возвращает и задает наименование типа проверяемого объекта.
         /// </summary>
         public string ValidatedTarget { get; set; }
 

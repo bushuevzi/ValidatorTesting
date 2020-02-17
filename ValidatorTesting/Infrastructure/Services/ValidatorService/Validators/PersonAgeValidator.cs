@@ -17,15 +17,14 @@ namespace ValidatorTesting.Infrastructure.Services.ValidatorService.Validators
 
         public int ValidatorId { get; set; }
         public Func<bool> CanExecute { get; set; } = () => true;
-        public IEnumerable<Notification> Validate()
+        public IEnumerable<ValidationNotification> Validate()
         {
-            if (!CanExecute()) yield break;
             if (_target.Age <= 0 || _target.Age > 120)
             {
-                yield return new Notification
+                yield return new ValidationNotification
                 {
                     ValidatedTarget =_target.GetType().Name,
-                    Message = "Возраст должен быть больше 0 и меньше 120",
+                    Message = "Возраст должен быть больше 0 и меньше 120.",
                     Severity = Severity.Warning
                 };
             }
