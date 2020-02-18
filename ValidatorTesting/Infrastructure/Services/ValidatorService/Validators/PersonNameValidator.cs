@@ -24,7 +24,7 @@ namespace ValidatorTesting.Infrastructure.Services.ValidatorService.Validators
             {
                 yield return new ValidationNotification
                 {
-                    ValidatedTarget =_target.GetType().Name,
+                    Target =_target.GetType().Name,
                     Message = "Имя должно содержать буквенные литералы и быть больше 2 символов.",
                     Severity = Severity.Error
                 };

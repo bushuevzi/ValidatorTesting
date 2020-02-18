@@ -3,7 +3,7 @@
 namespace ValidatorTesting.Infrastructure.Services.ValidatorService
 {
     /// <summary>
-    /// Объект содержащий сведения и описание найденной проблемы/ошибоки.
+    /// Объект содержащий сведения и описание найденной проблемы/ошибки.
     /// </summary>
     public class ValidationNotification
     {
@@ -20,11 +20,11 @@ namespace ValidatorTesting.Infrastructure.Services.ValidatorService
         /// <summary>
         /// Возвращает и задает наименование типа проверяемого объекта.
         /// </summary>
-        public string ValidatedTarget { get; set; }
+        public string Target { get; set; }
 
         public override string ToString()
         {
-            return $"{Severity.ToString().ToUpper()} | {Message} | {ValidatedTarget}";
+            return $"{Severity.ToString().ToUpper()} | {Message} | {Target}";
         }
     }
 }

@@ -9,7 +9,7 @@ namespace ValidatorTesting.Infrastructure.Services.ValidatorService
     public interface IValidator
     {
         /// <summary>
-        /// Возвращение и задание идентификатор валидатора. Используется для работы с сервисом валидации (дублирование валидаторов в сервисе не допускается)
+        /// Возвращает и задает id валидатора. Используется для работы с сервисом валидации (дублирование валидаторов в сервисе не допускается)
         /// </summary>
         int ValidatorId { get; set; }
         
@@ -19,7 +19,7 @@ namespace ValidatorTesting.Infrastructure.Services.ValidatorService
         Func<bool> CanExecute { get; set; }
         
         /// <summary>
-        /// Выполнение валидации данных.
+        /// Применяет правила проверки данных.
         /// </summary>
         /// <returns>Коллекция уведомлений</returns>
         IEnumerable<ValidationNotification> Validate();

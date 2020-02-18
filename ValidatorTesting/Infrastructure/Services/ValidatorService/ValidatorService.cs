@@ -12,9 +12,9 @@ namespace ValidatorTesting.Infrastructure.Services.ValidatorService
         private List<IValidator> _validators = new List<IValidator>();
         
         /// <summary>
-        /// Добавление валидатора в сервис.
+        /// Добавление валидатора в коллекцию валидаторов сервиса.
         /// </summary>
-        /// <param name="validator">Валидатор</param>
+        /// <param name="validator">Добавляемый валидатор</param>
         public void AddValidator(IValidator validator)
         {
             if (validator == null) throw new ArgumentNullException(nameof(validator));
@@ -41,6 +41,7 @@ namespace ValidatorTesting.Infrastructure.Services.ValidatorService
         /// Валидация данных через все зарегистрированные валидаторы.
         /// </summary>
         /// <returns>Коллекция уведомлений</returns>
+        // TODO: сделать асинхронно (см. IEnvoron....)
         public IEnumerable<ValidationNotification> Validate()
         {
             var notifications = new List<ValidationNotification>();
@@ -48,6 +49,7 @@ namespace ValidatorTesting.Infrastructure.Services.ValidatorService
             {
                 if (validator.CanExecute())
                 {
+                    // TODO: task
                     notifications.AddRange(validator.Validate());
                 }
             }

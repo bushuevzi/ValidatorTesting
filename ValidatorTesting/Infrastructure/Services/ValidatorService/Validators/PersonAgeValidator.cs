@@ -23,7 +23,7 @@ namespace ValidatorTesting.Infrastructure.Services.ValidatorService.Validators
             {
                 yield return new ValidationNotification
                 {
-                    ValidatedTarget =_target.GetType().Name,
+                    Target =_target.GetType().Name,
                     Message = "Возраст должен быть больше 0 и меньше 120.",
                     Severity = Severity.Warning
                 };

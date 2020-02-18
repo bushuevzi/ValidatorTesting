@@ -1,7 +1,7 @@
 ﻿namespace ValidatorTesting.Data.Enums
 {
     /// <summary>
-    /// Задает константы, определяющие уровень ошибки/уведомления
+    /// Задает уровень сообщения
     /// </summary>
     public enum Severity
     {
