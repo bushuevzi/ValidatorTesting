@@ -5,19 +5,16 @@ using ValidatorTesting.Data.Enums;
 
 namespace ValidatorTesting.Infrastructure.Services.ValidatorService.Validators
 {
-    public class PersonAgeValidator : IValidator
+    public class PersonAgeValidator : BasicValidator
     {
         private readonly Person _target;
 
         public PersonAgeValidator(Person target)
         {
             _target = target;
-            ValidatorId = this.GetHashCode();
         }
 
-        public int ValidatorId { get; set; }
-        public Func<bool> CanExecute { get; set; } = () => true;
-        public IEnumerable<ValidationResult> Validate()
+        public override IEnumerable<ValidationResult> Validate()
         {
             if (_target.Age <= 0 || _target.Age > 120)
             {

@@ -9,11 +9,6 @@ namespace ValidatorTesting.Infrastructure.Services.ValidatorService
     public interface IValidator
     {
         /// <summary>
-        /// Возвращает id валидатора. Может использоваться для исключения дублирования валидаторов в коллекциях.
-        /// </summary>
-        int ValidatorId { get; set; }
-        
-        /// <summary>
         /// Установка разрешения за запуск валидатора.
         /// </summary>
         Func<bool> CanExecute { get; set; }

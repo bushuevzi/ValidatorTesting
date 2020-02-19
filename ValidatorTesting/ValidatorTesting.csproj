@@ -79,6 +79,7 @@
     <Compile Include="Data\DomainModels\Person.cs" />
     <Compile Include="Data\Enums\Severity.cs" />
     <Compile Include="Infrastructure\IoC\AutofacInitializer.cs" />
+    <Compile Include="Infrastructure\Services\ValidationService\BasicValidator.cs" />
     <Compile Include="Infrastructure\Services\ValidationService\IValidator.cs" />
     <Compile Include="Infrastructure\Services\ValidationService\IValidationService.cs" />
     <Compile Include="Infrastructure\Services\ValidationService\ValidationResult.cs" />

@@ -6,19 +6,15 @@ using ValidatorTesting.Data.Enums;
 
 namespace ValidatorTesting.Infrastructure.Services.ValidatorService.Validators
 {
-    public class PersonNameValidator : IValidator
+    public class PersonNameValidator : BasicValidator
     {
         private readonly Person _target;
 
         public PersonNameValidator(Person target)
         {
             _target = target;
-            ValidatorId = this.GetHashCode();
         }
-        
-        public int ValidatorId { get; set; }
-        public Func<bool> CanExecute { get; set; } = () => true;
-        public IEnumerable<ValidationResult> Validate()
+        public override IEnumerable<ValidationResult> Validate()
         {
             if (!Regex.IsMatch(_target.Name ?? "", @"^[A-Za-z]{2,30}"))
             {

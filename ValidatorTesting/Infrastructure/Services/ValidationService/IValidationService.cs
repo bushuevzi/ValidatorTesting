@@ -22,9 +22,9 @@ namespace ValidatorTesting.Infrastructure.Services.ValidatorService
         void RemoveValidator(IValidator validator);
 
         /// <summary>
-        /// Асинхронная проверка данных через все зарегистрированные валидаторы.
+        /// Запускает проверку данных по добавленным правилам.
         /// </summary>
-        /// <returns>Асинхронная задача, представляющая результаты проверки данных валидаторами</returns>
+        /// <returns>Результаты проверки данных валидаторами.</returns>
         Task<IEnumerable<ValidationResult>> ValidateAsync();
     }
 }
