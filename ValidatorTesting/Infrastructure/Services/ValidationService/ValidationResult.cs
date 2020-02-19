@@ -3,17 +3,17 @@
 namespace ValidatorTesting.Infrastructure.Services.ValidatorService
 {
     /// <summary>
-    /// Объект содержащий сведения и описание найденной проблемы/ошибки.
+    /// Объект, содержащий сведения и описание проблемы/ошибки.
     /// </summary>
-    public class ValidationNotification
+    public class ValidationResult
     {
         /// <summary>
-        /// Возвращает и задает уроверь серьезности проблемы/ошибки.
+        /// Возвращает и задает уроверь проблемы/ошибки.
         /// </summary>
         public Severity Severity { get; set; }
         
         /// <summary>
-        /// Возвращает и задает текст сообщения о наличии проблем/ошибок.
+        /// Возвращает и задает текст сообщения проблемы/ошибоки.
         /// </summary>
         public string Message { get; set; }
         

@@ -79,12 +79,12 @@
     <Compile Include="Data\DomainModels\Person.cs" />
     <Compile Include="Data\Enums\Severity.cs" />
     <Compile Include="Infrastructure\IoC\AutofacInitializer.cs" />
-    <Compile Include="Infrastructure\Services\ValidatorService\IValidator.cs" />
-    <Compile Include="Infrastructure\Services\ValidatorService\IValidatorService.cs" />
-    <Compile Include="Infrastructure\Services\ValidatorService\Notication.cs" />
-    <Compile Include="Infrastructure\Services\ValidatorService\ValidatorService.cs" />
-    <Compile Include="Infrastructure\Services\ValidatorService\Validators\PersonAgeValidator.cs" />
-    <Compile Include="Infrastructure\Services\ValidatorService\Validators\PersonNameValidator.cs" />
+    <Compile Include="Infrastructure\Services\ValidationService\IValidator.cs" />
+    <Compile Include="Infrastructure\Services\ValidationService\IValidationService.cs" />
+    <Compile Include="Infrastructure\Services\ValidationService\ValidationResult.cs" />
+    <Compile Include="Infrastructure\Services\ValidationService\ValidationService.cs" />
+    <Compile Include="Infrastructure\Services\ValidationService\Validators\PersonAgeValidator.cs" />
+    <Compile Include="Infrastructure\Services\ValidationService\Validators\PersonNameValidator.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>

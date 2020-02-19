@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System.Threading.Tasks;
+using System.Windows;
 using Autofac;
 using ValidatorTesting.Data.DomainModels;
 using ValidatorTesting.Infrastructure.IoC;
@@ -12,14 +13,14 @@ namespace ValidatorTesting
     /// </summary>
     public partial class MainWindow
     {
-        private readonly IValidatorService _validatorService;
+        private readonly IValidationService _validatorService;
         private readonly IContainer _container;
         public Person Person { get; set; }
         
         public MainWindow()
         {
             _container = AutofacInitializer.CreateContainer();
-            _validatorService = _container.Resolve<IValidatorService>();
+            _validatorService = _container.Resolve<IValidationService>();
             
             InitializeComponent();
             
@@ -38,9 +39,9 @@ namespace ValidatorTesting
             _validatorService.AddValidator(personNameValidator);
         }
 
-        private void ValidateButton(object sender, RoutedEventArgs e)
+        private async void ValidateButton(object sender, RoutedEventArgs e)
         {
-            var notifications = _validatorService.Validate();
+            var notifications = await _validatorService.ValidateAsync();
             MessageCollector.Text = string.Join("\n", notifications);
         }
     }

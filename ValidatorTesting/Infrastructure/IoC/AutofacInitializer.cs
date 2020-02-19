@@ -14,8 +14,8 @@ namespace ValidatorTesting.Infrastructure.IoC
 
             #region Регистрация сервисов
             
-            builder.RegisterType<ValidatorService>()
-                .As<IValidatorService>()
+            builder.RegisterType<ValidationService>()
+                .As<IValidationService>()
                 .SingleInstance();
             
             #endregion

@@ -1,32 +1,31 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text.RegularExpressions;
 using ValidatorTesting.Data.DomainModels;
 using ValidatorTesting.Data.Enums;
 
 namespace ValidatorTesting.Infrastructure.Services.ValidatorService.Validators
 {
-    public class PersonNameValidator : IValidator
+    public class PersonAgeValidator : IValidator
     {
         private readonly Person _target;
 
-        public PersonNameValidator(Person target)
+        public PersonAgeValidator(Person target)
         {
             _target = target;
             ValidatorId = this.GetHashCode();
         }
-        
+
         public int ValidatorId { get; set; }
         public Func<bool> CanExecute { get; set; } = () => true;
-        public IEnumerable<ValidationNotification> Validate()
+        public IEnumerable<ValidationResult> Validate()
         {
-            if (!Regex.IsMatch(_target.Name ?? "", @"^[A-Za-z]{2,30}"))
+            if (_target.Age <= 0 || _target.Age > 120)
             {
-                yield return new ValidationNotification
+                yield return new ValidationResult
                 {
                     Target =_target.GetType().Name,
-                    Message = "Имя должно содержать буквенные литералы и быть больше 2 символов.",
-                    Severity = Severity.Error
+                    Message = "Возраст должен быть больше 0 и меньше 120.",
+                    Severity = Severity.Warning
                 };
             }
         }
