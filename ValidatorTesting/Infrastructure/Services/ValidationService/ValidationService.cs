@@ -62,16 +62,14 @@ namespace ValidatorTesting.Infrastructure.Services.ValidatorService
 //
 //            return validationResults;
 //        }
-        
+
         /// <inheritdoc />
         public async Task<IEnumerable<ValidationResult>> ValidateAsync()
         {
             var validationResults = new List<ValidationResult>();
-            
-            var stopwatch = Stopwatch.StartNew();
-            
+
             List<Task> tasks = new List<Task>();
-            
+
             foreach (var validator in _validators)
             {
                 tasks.Add(Task.Run(() =>
@@ -79,15 +77,11 @@ namespace ValidatorTesting.Infrastructure.Services.ValidatorService
                     if (validator.CanExecute is null || validator.CanExecute())
                     {
                         validationResults.AddRange(validator.Validate());
-                        Task.Delay(5000).GetAwaiter().GetResult();
                     }
                 }));
             }
 
             await Task.WhenAll(tasks.ToArray());
-            
-            stopwatch.Stop();
-            validationResults.Add(new ValidationResult{Message = stopwatch.Elapsed.ToString()});
 
             return validationResults;
         }

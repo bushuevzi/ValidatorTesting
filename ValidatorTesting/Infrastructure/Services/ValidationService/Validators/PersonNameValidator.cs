@@ -16,7 +16,7 @@ namespace ValidatorTesting.Infrastructure.Services.ValidatorService.Validators
         }
         public override IEnumerable<ValidationResult> Validate()
         {
-            if (!Regex.IsMatch(_target.Name ?? "", @"^[A-Za-z]{2,30}"))
+            if (!Regex.IsMatch(_target.Name ?? "", @"^\w{2,30}"))
             {
                 yield return new ValidationResult
                 {
