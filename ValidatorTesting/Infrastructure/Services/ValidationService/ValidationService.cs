@@ -36,59 +36,61 @@ namespace ValidatorTesting.Infrastructure.Services.ValidatorService
             _validators.RemoveAll(v => v == validator);
         }
 
-        /// <inheritdoc />
-        /// <remarks>Запуск задач асинхронно и параллельно -- не лочится API (UI) и валидаторы не ждут друг друга</remarks>
-        public async Task<IEnumerable<ValidationResult>> ValidateAsync()
-        {
-            var validationResults = new ConcurrentBag<ValidationResult>();
-            
-            var stopwatch = Stopwatch.StartNew();
-            
-            await Task.Run(() =>
-                Parallel.ForEach(_validators, validator =>
-                {
-                    if (validator.CanExecute is null || validator.CanExecute())
-                    {
-                        foreach (var validationResult in validator.Validate())
-                        {
-                            validationResults.Add(validationResult);
-                        }
-
-                        Task.Delay(1000).GetAwaiter().GetResult();
-                    }
-                }));
-            
-            stopwatch.Stop();
-            validationResults.Add(new ValidationResult{Message = stopwatch.Elapsed.ToString()});
-
-            return validationResults;
-        }
-        
 //        /// <inheritdoc />
-//        /// <remarks>Запуск задач асинхронно НО НЕ параллельно -- не лочится API (UI), НО валидаторы ЖДУТ друг друга</remarks>
 //        public async Task<IEnumerable<ValidationResult>> ValidateAsync()
 //        {
-//            var validationResults = new List<ValidationResult>();
+//            var validationResults = new ConcurrentBag<ValidationResult>();
 //            
 //            var stopwatch = Stopwatch.StartNew();
 //            
-//            foreach (var validator in _validators)
-//            {
-//                await Task.Run(() =>
+//            await Task.Run(() =>
+//                Parallel.ForEach(_validators, validator =>
 //                {
 //                    if (validator.CanExecute is null || validator.CanExecute())
 //                    {
-//                        validationResults.AddRange(validator.Validate());
+//                        foreach (var validationResult in validator.Validate())
+//                        {
+//                            validationResults.Add(validationResult);
+//                        }
+//
 //                        Task.Delay(1000).GetAwaiter().GetResult();
 //                    }
-//                });
-//            }
+//                }));
 //            
 //            stopwatch.Stop();
 //            validationResults.Add(new ValidationResult{Message = stopwatch.Elapsed.ToString()});
 //
 //            return validationResults;
 //        }
+        
+        /// <inheritdoc />
+        public async Task<IEnumerable<ValidationResult>> ValidateAsync()
+        {
+            var validationResults = new List<ValidationResult>();
+            
+            var stopwatch = Stopwatch.StartNew();
+            
+            List<Task> tasks = new List<Task>();
+            
+            foreach (var validator in _validators)
+            {
+                tasks.Add(Task.Run(() =>
+                {
+                    if (validator.CanExecute is null || validator.CanExecute())
+                    {
+                        validationResults.AddRange(validator.Validate());
+                        Task.Delay(5000).GetAwaiter().GetResult();
+                    }
+                }));
+            }
+
+            await Task.WhenAll(tasks.ToArray());
+            
+            stopwatch.Stop();
+            validationResults.Add(new ValidationResult{Message = stopwatch.Elapsed.ToString()});
+
+            return validationResults;
+        }
 
         private bool IsValidatorExist(IValidator validator)
         {
