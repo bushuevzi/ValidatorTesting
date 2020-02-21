@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Reflection;
 using System.Text.RegularExpressions;
 using ValidatorTesting.Data.DomainModels;
 using ValidatorTesting.Data.Enums;
@@ -7,9 +8,9 @@ namespace ValidatorTesting.Infrastructure.Services.ValidatorService.Validators
 {
     public class PersonsCollectionValidator : BasicValidator
     {
-        private readonly List<Person> _target;
+        private readonly IEnumerable<Person> _target;
 
-        public PersonsCollectionValidator(List<Person> target)
+        public PersonsCollectionValidator(IEnumerable<Person> target)
         {
             _target = target;
         }
@@ -22,7 +23,7 @@ namespace ValidatorTesting.Infrastructure.Services.ValidatorService.Validators
                 {
                     yield return new ValidationResult
                     {
-                        Target = person.GetType().Name,
+                        Target = typeof(Person).GetProperty("Name").ReflectedType.FullName,
                         Message = "Имя должно содержать буквенные литералы и быть больше 2 символов.",
                         Severity = Severity.Error
                     };
@@ -32,7 +33,7 @@ namespace ValidatorTesting.Infrastructure.Services.ValidatorService.Validators
                 {
                     yield return new ValidationResult
                     {
-                        Target = person.GetType().Name,
+                        Target = typeof(Person).GetProperty("Age").ReflectedType.FullName,
                         Message = "Возраст должен быть больше 0 и меньше 120.",
                         Severity = Severity.Warning
                     };

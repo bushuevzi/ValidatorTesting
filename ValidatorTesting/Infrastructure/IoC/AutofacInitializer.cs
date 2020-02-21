@@ -1,4 +1,5 @@
 ﻿using Autofac;
+using ValidatorTesting.Data.DomainModels;
 using ValidatorTesting.Infrastructure.Services.ValidatorService;
 
 namespace ValidatorTesting.Infrastructure.IoC
@@ -13,10 +14,11 @@ namespace ValidatorTesting.Infrastructure.IoC
             var builder = new ContainerBuilder();
 
             #region Регистрация сервисов
-            
+
             builder.RegisterType<ValidationService>()
                 .As<IValidationService>()
                 .SingleInstance();
+            builder.RegisterType<PersonsViewModel>();
             
             #endregion
             

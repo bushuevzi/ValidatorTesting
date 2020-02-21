@@ -1,13 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Media;
 using Autofac;
 using ValidatorTesting.Data.DomainModels;
+using ValidatorTesting.Data.Enums;
 using ValidatorTesting.Infrastructure.IoC;
 using ValidatorTesting.Infrastructure.Services.ValidatorService;
 using ValidatorTesting.Infrastructure.Services.ValidatorService.Validators;
+using ValidationResult = ValidatorTesting.Infrastructure.Services.ValidatorService.ValidationResult;
 
 namespace ValidatorTesting
 {
@@ -18,30 +23,22 @@ namespace ValidatorTesting
     {
         private readonly IValidationService _validatorService;
         private readonly IContainer _container;
-        private List<Person> _persons;
+        private readonly PersonsViewModel _persons;
+        public List<ValidationResult> ValidationResults { get; set; } = new List<ValidationResult>();
 
         public MainWindow()
         {
+            Loaded += MainWindow_Loaded;
+            
             _container = AutofacInitializer.CreateContainer();
             _validatorService = _container.Resolve<IValidationService>();
             
             InitializeComponent();
-            
-            // Создание модели и привязки ее к контексту главного окна
-            _persons = new List<Person>
-            {
-                new Person("Admin", 10),
-                new Person("Ян", 100),
-                new Person("Захар", 25)
-            };
-          
-            personsGrid.DataContext = _persons;
-            
-            _validatorService.AddValidator(new PersonsCollectionValidator(_persons));
-            
-            // Создание валидаторов и регистрация их в сервисе валидации
-            foreach (var person in _persons)
-            {
+
+            _persons = _container.Resolve<PersonsViewModel>();
+
+//            foreach (var person in _persons)
+//            {
 //                var personAgeValidator = new PersonAgeValidator(person)
 //                {
 //                    // Не выполняем проверку на возраст если человека зовут Admin
@@ -51,17 +48,37 @@ namespace ValidatorTesting
 //                
 //                _validatorService.AddValidator(personAgeValidator);
 //                _validatorService.AddValidator(personNameValidator);
+//
+//            }
+        }
 
-            }
+        private void MainWindow_Loaded(object sender, RoutedEventArgs e)
+        {
+            PersonGrid.ItemsSource = _persons.Persons;
+            MessageCollector.ItemsSource = ValidationResults;
+        }
+
+        // TODO: Какое событие нужно обрабатывать чтобы оно запускалось при переходе между ячейками? Сейчас отрабатывает при смене строки.
+        
+        private async void personGrid_CellChanged(object sender, EventArgs eventArgs)
+        {
+            ValidationResults.Clear();
+            ValidationResults.AddRange(await _validatorService.ValidateAsync());
+            
+            // TODO: Нормально ли такое "ручное обновление"?
+            MessageCollector.Items.Refresh();
         }
         
-        // TODO: при создании строки -- нужно создать и зарегистировать обработчик новый объект.
-        
-
-        private async void personGrid_MouseUp(object sender, EventArgs eventArgs)
+        // Оттеняем вывод ошибок
+        private void messageCollector_LoadingRow(object sender, DataGridRowEventArgs e)
         {
-            var notifications = await _validatorService.ValidateAsync();
-            MessageCollector.Text = string.Join("\n", notifications);
+            ValidationResult validationResult = e.Row.DataContext as ValidationResult;
+
+            if (validationResult?.Severity == Severity.Error)
+            {
+                e.Row.Foreground = new SolidColorBrush(Colors.DarkRed);
+                e.Row.FontWeight = FontWeights.Bold;
+            }
         }
     }
 }
